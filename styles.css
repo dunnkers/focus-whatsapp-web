@@ -1,0 +1,11 @@
+[aria-label~='Chat'] {
+    display: none;
+}
+
+[aria-label~='Search'] {
+    display: none;
+}
+
+div#pane-side {
+    display: none;
+}

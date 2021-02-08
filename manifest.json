@@ -1,0 +1,23 @@
+{
+  "name": "Focus for Whatsapp Web",
+  "version": "1.0",
+  "description": "Reclaim your productivity.",
+  "manifest_version": 2,
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "css": [
+        "styles.css"
+      ],
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
