@@ -4,20 +4,20 @@
   "description": "Reclaim your productivity.",
   "manifest_version": 2,
   "permissions": [
-    "storage"
-  ],
-  "content_scripts": [
-    {
-      "css": [
-        "styles.css"
-      ],
-      "matches": [
-        "https://web.whatsapp.com/*"
-      ]
-    }
+    "storage", "activeTab", "https://web.whatsapp.com/*"
   ],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false
+  },
+  "browser_action": {
+    "default_popup": "options.html"
+  },
+  "background": {
+    "scripts": [
+      "content-scripts-register-polyfill.js",
+      "background.js"
+    ],
+    "persistent": false
   }
 }

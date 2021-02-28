@@ -9,6 +9,44 @@ function save_options() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
     status.textContent = 'Options saved.';
+
+
+    
+
+
+
+    if (items.hide_chats) {
+      const registeredScript = chrome.contentScripts.register({
+          css: [{
+              file: 'hide.css'
+          }],
+          matches: [
+              'https://web.whatsapp.com/*'
+          ]
+      }).then(function(res) {
+          console.log('hide chats');
+          console.log(res);
+      });
+  } else {
+      const registeredScript = chrome.contentScripts.register({
+          css: [{
+              file: 'show.css'
+          }],
+          matches: [
+              'https://web.whatsapp.com/*'
+          ]
+      }).then(function(res) {
+          console.log('show chats');
+          console.log(res);
+      });
+  }
+
+
+
+    
+
+
+
     setTimeout(function() {
       status.textContent = '';
     }, 750);
