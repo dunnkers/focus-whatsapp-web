@@ -4,12 +4,23 @@
   "description": "Reclaim your productivity.",
   "manifest_version": 2,
   "permissions": [
-    "storage", "activeTab", "https://web.whatsapp.com/*"
+    "storage", "activeTab", "https://web.whatsapp.com/*", "tabs"
   ],
   "options_ui": {
     "page": "options.html",
-    "open_in_tab": false
+    "open_in_tab": false,
+    "chrome_style": true
   },
+  "content_scripts": [
+    {
+      "js": [
+        "content-script.js"
+      ],
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ]
+    }
+  ],
   "browser_action": {
     "default_popup": "options.html"
   },

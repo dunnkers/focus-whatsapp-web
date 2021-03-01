@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Focus for Whatsapp Options</title>
+    <style>
+        body {
+            min-width: 200px;
+        }
+    </style>
 </head>
 <body>
     <label>
@@ -9,15 +14,11 @@
         Hide chats
     </label>
 
-    <label>
-        <input type="checkbox" id="hide_search">
-        Hide search
-    </label>
-
     <div id="status"></div>
-    <button id="save">Save</button>
+    <!-- <button id="save">Save</button> -->
 
     <!-- JS -->
+    <script src="content-scripts-register-polyfill.js"></script>
     <script src="options.js"></script>
 </body>
 </html>
