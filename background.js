@@ -1,74 +1,36 @@
-// chrome.webNavigation.onCompleted.addListener(function() {
-//     alert("This is my favorite website!");
-// }, {url: [{urlMatches : 'https://web.whatsapp.com/*'}]});
-
-chrome.storage.onChanged.addListener(changes => {
-    console.log('chrome.storage.onChanged')
-    const { hide_chats } = changes;
-    console.log(hide_chats);
-
+function applyConfig(config) {
     chrome.tabs.query({url:'https://web.whatsapp.com/*'}, tabs => {
         // tabs is empty when whatsapp not open.
         for (const tab of tabs) {
-            console.log(tab);
-            // chrome.tabs.sendMessage(tab.id, {
-            //     hide_chats: hide_chats.newValue
-            // }, function(response) {});
-
-
             const port = chrome.tabs.connect(tab.id);
-            port.postMessage({ hide_chats: hide_chats.newValue });
-            port.onMessage.addListener((response) => {
-              console.log(response);
-            });
-        
+            port.postMessage(config); // send new config to tab
+            chrome.tabs.sendMessage(tab.id, config);
+            console.log('New settings sent to content script ✓');
 
+            // console.log('Running insertCSS...')
+            // chrome.tabs.insertCSS(tab.id, {
+            //     code: `#pane-side { display: ${config.hide_chats ? 'none' : 'inline'}`
+            // })
+            // console.log('WhatsApp tab is open, but could not communicate -');
+            // console.log('with content script. Inserting it manually...');
 
+            // chrome.tabs.executeScript(tab.id, {
+            //     file: 'content-script.js',
+            // });
+            // port.onMessage.addListener((msg) => {
+            //     console.log('msg', msg);
+            // })
         }
-
     });
-    
+}
+
+chrome.storage.onChanged.addListener(changes => {
+    const { hide_chats } = changes;
+    applyConfig({
+        hide_chats: hide_chats.newValue
+    });
 });
 
-
-
-// console.log('giezer!');
-// chrome.storage.sync.get({
-//     hide_chats: true
-//   }, function(items) {
-//     console.log('storage:',items)
-//     if (items && items.hide_chats) {
-//         const registeredScript = chrome.contentScripts.register({
-//             css: [{
-//                 file: 'hide.css'
-//             }],
-//             matches: [
-//                 'https://web.whatsapp.com/*'
-//             ]
-//         }).then(function(res) {
-//             console.log('hide chats');
-//             console.log(res);
-//         });
-//     } else {
-//         const registeredScript = chrome.contentScripts.register({
-//             css: [{
-//                 file: 'show.css'
-//             }],
-//             matches: [
-//                 'https://web.whatsapp.com/*'
-//             ]
-//         }).then(function(res) {
-//             console.log('show chats');
-//             console.log(res);
-//         });
-//     }
-//   });
-
-
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//     // No tabs or host permissions needed!
-//     console.log('Turning ' + tab.url + ' red!');
-//     chrome.tabs.executeScript({
-//       code: 'document.body.style.backgroundColor="red"'
-//     });
-//   });
+chrome.storage.sync.get({
+    hide_chats: true
+}, applyConfig);

@@ -1,54 +1,28 @@
-// chrome.runtime.onInstalled.addListener(function() {
-//     console.log("The color is green.");
-// });
+function setVisibility(visibility, id) {
+    const display = visibility ? 'none' : 'inline';
+    console.log(`[Focus for Whatsapp] Setting #${id} visibility to: ${display}`)
 
-// function setVisibility(visibility, id) {
+    var styleElem = document.createElement('style');
+    styleElem.innerHTML = `#${id} { display: ${display} }`;
+    document.documentElement.insertBefore(styleElem, null);
+}
 
-// }
+function setSidepaneVisibility(visibility) {
+    setVisibility(visibility, 'pane-side');
+}
 
-// function setSidepaneVisibility(visibility) {
-
-// }
-
+function applyConfig(config) {
+    setSidepaneVisibility(config.hide_chats);
+}
 
 chrome.runtime.onConnect.addListener((port) => {
-    console.log(port,'connected')
-    port.onMessage.addListener(settings => {
-        console.log(settings);
-        
-        var customStyles = document.createElement('style');
-        const display = settings.hide_chats ? 'none' : 'inline';
-        customStyles.innerHTML = `#pane-side { display: ${display} }`;
-        document.documentElement.insertBefore(customStyles, null);
-    
-    //   if (msg.function == 'html') {
-    //     port.postMessage({ html: document.documentElement.outerHTML, description: document.querySelector("meta[name=\'description\']").getAttribute('content'), title: document.title });
-    //   }
-    });
-  });
-
-// chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
-//     console.log(msg);
-//     // if (msg.action == 'open_dialog_box') {
-//     //   alert("Message recieved!");
-//     // }
-//   });
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOMContentLoaded');
+    port.onMessage.addListener(config => {
+        applyConfig(config);
+        port.postMessage({ action: 'received' });
+    }); 
 });
 
 chrome.storage.sync.get({
     hide_chats: true
-}, function(items) {
-    // document.getElementById('hide_chats').checked = items.hide_chats;
-    // document.getElementById('hide_search').checked = items.hide_search;
-
-
-
-    var customStyles = document.createElement('style');
-    const display = items.hide_chats ? 'none' : 'inline';
-    customStyles.innerHTML = `#pane-side { display: ${display} }`;
-    document.documentElement.insertBefore(customStyles, null);
-});
+}, applyConfig);  // passes `items` into applyConfig
 

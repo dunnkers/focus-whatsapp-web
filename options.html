@@ -4,21 +4,25 @@
     <title>Focus for Whatsapp Options</title>
     <style>
         body {
-            min-width: 200px;
+            min-width: 150px;
+            min-height: 60px;
+        }
+
+        #hide_chats {
+            float: right;
         }
     </style>
 </head>
 <body>
+    <h2>Focus for Whatsapp</h2>
     <label>
-        <input type="checkbox" id="hide_chats">
         Hide chats
+        <input type="checkbox" id="hide_chats">
     </label>
 
     <div id="status"></div>
-    <!-- <button id="save">Save</button> -->
 
     <!-- JS -->
-    <script src="content-scripts-register-polyfill.js"></script>
     <script src="options.js"></script>
 </body>
 </html>
