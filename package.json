@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Reclaim your productivity.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf build; mkdir -p build; cp src/* ./build;"
   },
   "repository": {
     "type": "git",

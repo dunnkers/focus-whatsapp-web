@@ -4,7 +4,7 @@
   "description": "Reclaim your productivity.",
   "manifest_version": 2,
   "permissions": [
-    "storage", "activeTab", "https://web.whatsapp.com/*", "tabs"
+    "storage", "https://web.whatsapp.com/*"
   ],
   "options_ui": {
     "page": "options.html",
@@ -29,5 +29,8 @@
       "background.js"
     ],
     "persistent": false
+  },
+  "icons": {
+    "128": "icon_128.png"
   }
 }
