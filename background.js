@@ -2,13 +2,20 @@ function applyConfig(config) {
     chrome.tabs.query({url:'https://web.whatsapp.com/*'}, tabs => {
         // tabs is empty when whatsapp not open.
         for (const tab of tabs) {
-            console.log('Running insertCSS...')
             const display = config.hide_chats ? 'none' : 'inline';
+            const id = 'pane-side';
+            console.log(`Setting #${id} visibility to: ${display}`)
             chrome.tabs.insertCSS(tab.id, {
-                code: `#pane-side { display: ${display} }`
+                code: `#${id} { display: ${display} }`
             })
         }
     });
+}
+
+function getAndApplyConfig() {
+    chrome.storage.sync.get({
+        hide_chats: true
+    }, applyConfig);    
 }
 
 chrome.storage.onChanged.addListener(changes => {
@@ -18,12 +25,12 @@ chrome.storage.onChanged.addListener(changes => {
     });
 });
 
-chrome.storage.sync.get({
-    hide_chats: true
-}, applyConfig);
-
-// chrome.management.onDisabled.addListener(() => console.log('Focus for whatsapp disabled!!!'));
-
-chrome.runtime.onSuspend.addListener(() => {
-    localStorage.setItem('duderino!!!!', 'giezer');
-})
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.action === 'insertCSS') { // content script
+            getAndApplyConfig();
+        }
+    }
+);
+  
+getAndApplyConfig();

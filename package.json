@@ -1,0 +1,29 @@
+{
+  "name": "focus-whatsapp-web",
+  "version": "1.0.0",
+  "description": "Reclaim your productivity.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dunnkers/focus-whatsapp-web.git"
+  },
+  "keywords": [
+    "WhatsApp",
+    "Web",
+    "Focus",
+    "Productivity",
+    "Chrome",
+    "Extension"
+  ],
+  "author": "dunnkers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dunnkers/focus-whatsapp-web/issues"
+  },
+  "homepage": "https://github.com/dunnkers/focus-whatsapp-web#readme",
+  "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.2.1"
+  }
+}
