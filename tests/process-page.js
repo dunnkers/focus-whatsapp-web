@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 const { exit } = require('process');
 
-const ENTRY = './saved-whatsapp-page/WhatsApp.htm';
 const PANE_SIDE = '#pane-side';
 const MAIN = '#main';
 const CHATS = 'div[style*="height"] div[style*="translateY"]';
@@ -13,7 +12,6 @@ if (!args.length) {
   exit(0);
 }
 const entry = args[0];
-console.log(`Using entry ${entry}...`);
 
 const maskText = async (page, main_element) => {
   // text itself
@@ -36,7 +34,7 @@ const maskText = async (page, main_element) => {
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    // headless: false,
     // devtools: true // debug inside page.evaluate (?)
   });
   const page = await browser.newPage();
@@ -50,11 +48,6 @@ const maskText = async (page, main_element) => {
   await page.$$eval('img[src]', elems => elems.map(elem => 
     elem.parentElement.removeChild(elem)
   ));
-  
-  // remove all data-id attributes
-  await page.$$eval('[data-id]', elems => elems.map(elem => {
-    elem['data-id'] = 'some-data-id';
-  }));
 
   // sort and remove chats except a few
   await page.$$eval(`${PANE_SIDE} ${CHATS}`, elems => {
@@ -63,7 +56,6 @@ const maskText = async (page, main_element) => {
       const num = str => Number(/(\d)+/g.exec(str)[0])
       const a = num(elem_a.style.transform); 
       const b = num(elem_b.style.transform);
-      console.log(a,((a > b) ? "> ge" : "< le"), b);
       if (a < b) return -1;
       if (a > b) return 1;
       if (a === b) return 0;
@@ -83,7 +75,19 @@ const maskText = async (page, main_element) => {
       elems[i].parentElement.removeChild(elems[i]);
     }
   });
-  console.log('Printing content and saving browser...');
+  
+  // obfuscate all data-id attributes
+  await page.$$eval('[data-id]', elems => elems.map((elem, i) => {
+    elem.setAttribute('data-id', i)
+  }));
+
+  // remove all data-pre-plain-text attributes
+  await page.$$eval('[data-pre-plain-text]', elems => 
+    elems.forEach(elem =>
+      elem.removeAttribute('data-pre-plain-text')
+    )
+  );
+  
   const content = await page.content();
   await browser.close();
   console.log(content);
