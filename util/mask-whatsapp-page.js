@@ -35,7 +35,7 @@ const maskText = async (page, main_element) => {
 (async () => {
   const browser = await puppeteer.launch({
     // headless: false,
-    // devtools: true // debug inside page.evaluate (?)
+    devtools: true // debug inside page.evaluate (?)
   });
   const page = await browser.newPage();
   const url = path.resolve(entry);
