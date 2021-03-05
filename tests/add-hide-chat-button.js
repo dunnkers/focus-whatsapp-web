@@ -1,17 +1,5 @@
 import puppeteer from 'puppeteer';
 
-function addHideChatButton() {
-  console.log('adding hide chat button...');
-  const li = ul.firstElementChild.cloneNode(true);
-  for (const div of li.children) {
-    if (div.getAttribute('role') === 'button' && div.textContent) {
-      div.textContent = 'Hide chat';
-      div.setAttribute('aria-label', 'Hide chat');
-    }
-  }
-  ul.append(li)
-}
-
 (async () => {
   const browser = await puppeteer.launch({
     // headless: false,
@@ -23,31 +11,31 @@ function addHideChatButton() {
 
 
 
-  await page.$eval(
-    'div[style*="transform-origin: left top;"] > ul',
-    ul => {
-    // add listener to <span> that always remains in DOM
-    const observer = new MutationObserver((mutationsList, observer) => {
-      console.log('MutationObserver triggered: ', mutationsList);
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'childList' && mutation.addedNodes.length) {
-          // add context menu.
-          const ul = mutation.addedNodes[0].firstElementChild;
-          console.log('found <ul>', ul);
-          addHideChatButton(ul);
-        }
-      }
-    })
+  // await page.$eval(
+  //   'div[style*="transform-origin: left top;"] > ul',
+  //   ul => {
+  //   // add listener to <span> that always remains in DOM
+  //   const observer = new MutationObserver((mutationsList, observer) => {
+  //     console.log('MutationObserver triggered: ', mutationsList);
+  //     for (const mutation of mutationsList) {
+  //       if (mutation.type === 'childList' && mutation.addedNodes.length) {
+  //         // add context menu.
+  //         const ul = mutation.addedNodes[0].firstElementChild;
+  //         console.log('found <ul>', ul);
+  //         addHideChatButton(ul);
+  //       }
+  //     }
+  //   })
 
-    const div = ul.parentElement;
-    const span = div.parentElement;
-    observer.observe(span, { childList: true, subtree: true });
+  //   const div = ul.parentElement;
+  //   const span = div.parentElement;
+  //   observer.observe(span, { childList: true, subtree: true });
 
-    // remove div
-    const divNode = div.cloneNode(true);
-    span.removeChild(div);
-    span.appendChild(divNode);
-  });
+  //   // remove div
+  //   const divNode = div.cloneNode(true);
+  //   span.removeChild(div);
+  //   span.appendChild(divNode);
+  // });
 
 
 
