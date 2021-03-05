@@ -25,12 +25,14 @@
     "default_popup": "options.html"
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ],
-    "persistent": false
+    "persistent": false,
+    "page": "background.html"
   },
   "icons": {
     "128": "icon_128.png"
-  }
+  },
+  "web_accessible_resources": [
+    "main.js",
+    "lib/*"
+  ]
 }
