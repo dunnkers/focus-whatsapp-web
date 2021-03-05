@@ -11,7 +11,20 @@ const path = require('path');
   const url = path.resolve('./webpages/with-chat-popup.html');
   await page.goto(`file://${url}`);
 
+  console.log(`Current directory: ${process.cwd()}`);
+  await page.addScriptTag({
+    path: './src/main.js',
+    type: 'text/javascript'
+  });
 
+  await page.addScriptTag({
+    // path: './src/main.js',
+    type: 'module',
+    content: `
+    import { addHideChatButton } from '../src/lib/dom.js';
+    addHideChatButton();
+    `
+  });
 
   // Adding button to context menu functionality.
   await page.$eval(
