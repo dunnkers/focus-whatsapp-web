@@ -1,5 +1,6 @@
 export function addHideChatButton(ul) {
   console.log('giezer!');
+  debugger;
   return;
   // add listener to <span> that always remains in DOM
   const observer = new MutationObserver((mutationsList, observer) => {

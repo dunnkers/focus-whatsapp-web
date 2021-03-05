@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
-const path = require('path');
-const { exit } = require('process');
+import puppeteer from 'puppeteer';
+import { exit } from 'process';
+import * as path from 'path';
 
 const PANE_SIDE = '#pane-side';
 const MAIN = '#main';
@@ -85,6 +85,13 @@ const maskText = async (page, main_element) => {
   await page.$$eval('[data-pre-plain-text]', elems => 
     elems.forEach(elem =>
       elem.removeAttribute('data-pre-plain-text')
+    )
+  );
+
+  // remove all <script> tags
+  await page.$$eval('script', elems =>
+    elems.forEach(elem =>
+      elem.parentElement.removeChild(elem)
     )
   );
   

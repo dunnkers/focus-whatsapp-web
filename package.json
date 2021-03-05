@@ -26,6 +26,11 @@
   "homepage": "https://github.com/dunnkers/focus-whatsapp-web#readme",
   "devDependencies": {
     "chrome-webstore-upload-cli": "^1.2.1",
+    "http-server": "^0.12.3",
     "puppeteer": "^8.0.0"
-  }
+  },
+  "dependencies": {
+    "cypress": "^6.6.0"
+  },
+  "type": "module"
 }

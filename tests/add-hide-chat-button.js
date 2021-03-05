@@ -1,5 +1,20 @@
-const puppeteer = require('puppeteer');
-const path = require('path');
+// const puppeteer = require('puppeteer');
+// const path = require('path');
+
+import puppeteer from 'puppeteer';
+import { addHideChatButton } from '../src/lib/dom.js';
+
+// function addHideChatButton() {
+//   console.log('adding hide chat button...');
+//   const li = ul.firstElementChild.cloneNode(true);
+//   for (const div of li.children) {
+//     if (div.getAttribute('role') === 'button' && div.textContent) {
+//       div.textContent = 'Hide chat';
+//       div.setAttribute('aria-label', 'Hide chat');
+//     }
+//   }
+//   ul.append(li)
+// }
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -8,25 +23,33 @@ const path = require('path');
   });
 
   const page = await browser.newPage();
-  const url = path.resolve('./webpages/with-chat-popup.html');
-  await page.goto(`file://${url}`);
+  await page.goto(`http://127.0.0.1:8080/webpages/with-chat-popup.html`);
 
   console.log(`Current directory: ${process.cwd()}`);
-  await page.addScriptTag({
-    path: './src/main.js',
-    type: 'text/javascript'
-  });
+  // emulate entire extension.
+  // await page.addScriptTag({
+  //   path: './src/main.js',
+  //   type: 'module'
+  // });
 
   await page.addScriptTag({
-    // path: './src/main.js',
     type: 'module',
     content: `
-    import { addHideChatButton } from '../src/lib/dom.js';
+    import { addHideChatButton } from '/src/lib/dom.js';
     addHideChatButton();
     `
   });
 
+  await page.evaluate();
+
   // Adding button to context menu functionality.
+  await page.evaluate(() => {
+    debugger;
+    // const observer = new MutationObserver((mutationsList, observer) => {
+      
+    // });
+    // observer.observe(span, { childList: true, subtree: true });
+  });
   await page.$eval(
     'div[style*="transform-origin: left top;"] > ul',
     ul => {
@@ -35,18 +58,10 @@ const path = require('path');
       console.log('MutationObserver triggered: ', mutationsList);
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList' && mutation.addedNodes.length) {
-          console.log('adding hide chat button...');
           // add context menu.
           const ul = mutation.addedNodes[0].firstElementChild;
           console.log('found <ul>', ul);
-          const li = ul.firstElementChild.cloneNode(true);
-          for (const div of li.children) {
-            if (div.getAttribute('role') === 'button' && div.textContent) {
-              div.textContent = 'Hide chat';
-              div.setAttribute('aria-label', 'Hide chat');
-            }
-          }
-          ul.append(li)
+          addHideChatButton(ul);
         }
       }
     })
