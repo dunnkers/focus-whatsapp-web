@@ -94,6 +94,16 @@ const maskText = async (page, main_element) => {
       elem.parentElement.removeChild(elem)
     )
   );
+
+  // inject extension
+  await page.addScriptTag({
+    type: 'module',
+    content: `
+      import { addHideChatButton, addListeners } from '/src/lib/dom.js';
+      addListeners();
+      addHideChatButton();
+    `
+  });
   
   const content = await page.content();
   await browser.close();

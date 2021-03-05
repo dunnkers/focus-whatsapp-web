@@ -1,3 +1,4 @@
 console.info('main.js loaded');
-import { addHideChatButton } from './lib/dom.js';
+import { addHideChatButton, addListeners } from './lib/dom.js';
+addListeners();
 addHideChatButton();
