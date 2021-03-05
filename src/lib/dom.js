@@ -1,7 +1,3 @@
-function isLoading() {
-  return !!$('#startup');
-}
-
 export function addListeners() {
   console.log('addListeners()');
   console.log(document);
@@ -12,16 +8,13 @@ export function addListeners() {
     console.log('WhatsApp web is still loading, observing loader...');
 
     const observer = new MutationObserver((mutationsList, observer) => {
-      console.log('mutation triggered')
       console.log('MutationObserver triggered: ', mutationsList);
-      // for (const mutation of mutationsList) {
-      // }
     });
+    
     const appWrapper = document.querySelector('.app-wrapper-web');
     observer.observe(appWrapper, { childList: true, subtree: true });
     console.log('Added observer.');
   }
-  // console.log('giezer!', $('#app-wrapper-web'));
 };
 
 export function addHideChatButton(ul) {
