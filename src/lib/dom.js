@@ -44,8 +44,21 @@ export function addHideButton() {
           div.setAttribute('aria-label', 'Hide chat');
         }
       }
-      li.style.opacity = 1; // set opacity.
+      li.classList.add('fwa-dropdown');
+      li.style.opacity = 0; // set opacity.
       ul.append(li)
+
+      // fade in opacity
+      let i = 0;
+      let k = window.setInterval(function() {
+        if (i >= 10) {
+          clearInterval(k);
+        } else {
+          li.style.opacity = i / 10;
+          i++;
+        }
+      }, 35); // milliseconds * 10 for the animation to run.
+    
     }
   })
 

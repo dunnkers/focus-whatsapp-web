@@ -1,0 +1,3 @@
+html[dir] .fwa-dropdown:hover {
+    background-color: var(--dropdown-background-hover);
+}
