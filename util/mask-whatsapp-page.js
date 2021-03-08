@@ -15,7 +15,8 @@ const entry = args[0];
 
 const maskText = async (page, main_element) => {
   // text itself
-  await page.$$eval(`${main_element} [dir]`, elems => elems.map(elem => {
+  await page.$$eval(`${main_element} [dir], ${main_element} span.copyable-text`,
+    elems => elems.map(elem => {
     elem.innerHTML = 'foo bar';
   }));
 
