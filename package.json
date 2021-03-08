@@ -4,7 +4,7 @@
   "description": "Reclaim your productivity.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf build; mkdir -p build; cp src/* ./build;"
+    "serve": "./node_modules/.bin/http-server ."
   },
   "repository": {
     "type": "git",

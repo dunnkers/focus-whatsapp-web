@@ -59,6 +59,15 @@ export function addHideButton() {
         }
       }, 35); // milliseconds * 10 for the animation to run.
     
+      li.addEventListener('click', () => {
+        console.log('clicked');
+        console.log(chrome.runtime);
+        if (chrome.runtime) {
+          chrome.runtime.sendMessage({
+            type: 'hideChat'
+          })
+        }
+      });
     }
   })
 

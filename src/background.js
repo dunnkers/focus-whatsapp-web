@@ -30,6 +30,9 @@ chrome.runtime.onMessage.addListener(
         if (request.action === 'insertCSS') { // content script
             getAndApplyConfig();
         }
+        if (request.action === 'hideChat') {
+            console.log('Hiding chat', request);
+        }
     }
 );
   
