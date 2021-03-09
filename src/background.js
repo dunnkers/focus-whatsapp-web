@@ -27,6 +27,7 @@ chrome.storage.onChanged.addListener(changes => {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
+        console.log('background.js received message:', request);
         if (request.action === 'insertCSS') { // content script
             getAndApplyConfig();
         }
